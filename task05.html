@@ -77,6 +77,7 @@
 			<div id="msg4"></div>
 		</fieldset>
 		<script>
+			// 219971125冉钱宝
 			//获取到id为msg1中的span元素
 			const span1 = document.querySelector( '#msg1')
 
@@ -149,16 +150,15 @@
 				sourceNode.setAttribute('src','img/grape.jpg')
 			}
 			//删除图片
-			        function removeImg() {
-			            const parentNode = document.getElementById('msg1');
-			            const imgNode = parentNode.querySelector('img');
-			            
-			            if (imgNode && imgNode.src.includes('img/grape.jpg')) {
-			                parentNode.removeChild(imgNode);
-			            } else {
-			                console.error('未找到要删除的图片节点或图片路径不匹配');
-			            }
-			        }
+						function removeImg() {
+						    var imgElement = document.getElementById('fruit');
+						    if (imgElement) {
+						        // 移除图片
+						        imgElement.parentNode.removeChild(imgElement);
+						    } else {
+						        console.error('错误');
+						    }	
+						}
 			//操作样式1
 			function changeCss1(){
 				//获取到原始图片
