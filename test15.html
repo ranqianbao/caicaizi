@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- 219971125冉钱宝 -->
+    <!-- 页面标题为“使用jQuery移动图片” -->
+    <title>使用jQuery移动图片</title>
+    <style>
+        body {
+            background-color: black; /* 将背景颜色设置为黑色 */
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .role {
+            position: relative; 
+            width: 100vw; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+
+        .role img {
+            position: absolute; 
+        }
+    </style>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- 引入jQuery库 -->
+<div class="role">
+    <!-- 包含玩家图片的div -->
+    <img src="img/player_left.gif" id="player" />
+    <!-- 玩家图片 -->
+    <img src="img/player_big.gif" id="player_big" style="position: absolute; bottom: 0; left: 0;" />
+    <!-- 放大的玩家图片1 -->
+    <img src="img/player1_big.gif" id="player1_big" style="position: absolute; bottom: 0; right: 0;" />
+    <!-- 放大的玩家图片2 -->
+	
+	<img src="img/player1.gif" id="player1" style="position: absolute; top: 0; left: 0;" />
+	
+	<img src="img/player3.gif" id="player3" style="position: absolute; top: 0; right: 0;" />
+</div>
+<script>
+    $(document).ready(function(){
+        // 页面加载完成后执行以下代码
+        var movingRight = true; // 初始方向为向右
+
+        //点击页面某个位置后，图片缓慢移动到点击位置
+        $("body").click(function(event){
+            // 点击页面时触发事件
+            var clickX = event.pageX; //获取点击位置的X坐标
+            var clickY = event.pageY; //获取点击位置的Y坐标
+            var player = $("#player");
+            var currentX = player.offset().left; //获取图片当前的X坐标
+            var currentY = player.offset().top; //获取图片当前的Y坐标
+
+            //计算图片需要移动的距离
+            var deltaX = clickX - currentX;
+            var deltaY = clickY - currentY;
+
+            //根据移动方向更改图片路径
+            if(isBig == false) {
+                var newSrc = movingRight ? "img/player_right.gif" : "img/player_left.gif";
+                player.attr("src", newSrc);
+            } else {
+                var newSrc = movingRight ? "img/playerbig_right.gif" : "img/playerbig_left.gif";
+                player.attr("src", newSrc);
+            }
+
+            //使用动画让图片移动到点击位置
+            player.stop().animate({
+                left: '+=' + deltaX,
+                top: '+=' + deltaY
+            }, 1000); // 动画持续时间为1秒
+
+            // 更新移动方向
+            movingRight = deltaX > 0;
+        });
+
+        var isBig = false; // 初始状态为普通大小图片
+        
+        //双击图片时更换图片
+                $("#player").dblclick(function(){
+                    if(isBig) {
+                        $(this).attr("src", "img/player_left.gif");
+                    } else {
+                        $(this).attr("src", "img/playerbig_left.gif");
+                    }
+                    
+                    isBig = !isBig; // 切换状态
+                });
+    });
+</script>
+</body>
+</html>
