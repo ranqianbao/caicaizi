@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>油价查询</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 5px;
+            width: 60%;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>全国城市油价查询</h1>
+        <input type="text" id="cityInput" placeholder="请输入城市名" />
+        <button id="fetchButton">查询</button>
+        <div id="oil-price"></div>
+    </div>
+
+    <script>
+        document.getElementById("fetchButton").addEventListener("click", function() {
+            var city = document.getElementById("cityInput").value;
+
+            fetch(`https://www.mxnzp.com/api/oil/search?province=${city}&app_id=2kmqmlsix0npnwg0&app_secret=CLnjnRvjE1UYNHXtapTjSHoAevBqqIPN`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var oilPrice = data.data;
+                    var oilPriceHtml = "<h2>油价查询结果</h2>";
+                    oilPriceHtml += "<p>省份: " + oilPrice.province + "</p>";
+                    oilPriceHtml += "<p>0号柴油油价: " + oilPrice.t0 + "</p>";
+                    oilPriceHtml += "<p>89号汽油油价: " + oilPrice.t89 + "</p>";
+                    oilPriceHtml += "<p>92号汽油油价: " + oilPrice.t92 + "</p>";
+                    oilPriceHtml += "<p>95号汽油油价: " + oilPrice.t95 + "</p>";
+                    oilPriceHtml += "<p>98号汽油油价: " + oilPrice.t98 + "</p>";
+
+                    document.getElementById("oil-price").innerHTML = oilPriceHtml;
+                })
+                .catch(error => console.error('Fetch error:', error));
+        });
+    </script>
+</body>
+</html>
